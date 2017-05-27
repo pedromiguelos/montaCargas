@@ -9,6 +9,8 @@ import utils.ImageLoader;
 
 public class PuzzleTileCellRenderer extends JLabel implements TableCellRenderer {
     
+    private int forkliftRow = -1;
+    
     public PuzzleTileCellRenderer() {
         setBackground(Color.WHITE);
         setOpaque(true);
@@ -16,22 +18,20 @@ public class PuzzleTileCellRenderer extends JLabel implements TableCellRenderer 
         this.setHorizontalAlignment(SwingConstants.CENTER);
     }
     
-
     public Component getTableCellRendererComponent(JTable table, Object value,
             boolean isSelected,
             boolean hasFocus, int row,
             int column) {
         
         ImageLoader loader = ImageLoader.getLoader();
-
+                
         switch (((Integer) value).intValue()) {
             case 0:
                 setIcon(loader.getIcon(Properties.EMPTY_IMAGE));
                 break;
             case 1:
                 setIcon(loader.getIcon(Properties.IMAGE_FORKLIFT));
-                if(column == 5)
-                     setIcon(loader.getIcon(Properties.IMAGE_DOOR));
+                forkliftRow = row;
                 break;
             case 2:
                 setIcon(loader.getIcon(Properties.IMAGE_PREFIXWALLH + Properties.IMAGE_SUFFIX));
@@ -59,6 +59,9 @@ public class PuzzleTileCellRenderer extends JLabel implements TableCellRenderer 
                 break;
         }
                 
+        if(row == forkliftRow && column == 5)
+            setIcon(loader.getIcon(Properties.IMAGE_DOOR));
+        
         return this;
     }
 }

@@ -34,7 +34,15 @@ import searchmethods.SearchMethod;
 public class MainFrame extends JFrame {
 
     
-    private int[][] initialMatrix = {{0, 0, 0, 0, 4, 4}, {0, 0, 0, 0, 0, 0}, {5, 0, 0, 0, 0, 0}, {5, 0, 0, 0, 7, 0}, {1, 0, 0, 0, 7, 0}, {6, 6, 6, 0, 7, 0}};
+   private int[][] initialMatrix = {
+        {0, 0, 0, 0, 0, 0},
+        {0, 2, 2, 2, 0, 0},
+        {1, 0, 0, 3, 0, 0},
+        {0, 3, 0, 2, 0, 2},
+        {0, 0, 0, 3, 0, 0},
+        {0, 0, 0, 0, 0, 0}
+    };
+   
     private EightPuzzleAgent agent = new EightPuzzleAgent(new ForklifttPuzzleState(initialMatrix));
     private JComboBox comboBoxSearchMethods;
     private JComboBox comboBoxHeuristics;
@@ -60,7 +68,7 @@ public class MainFrame extends JFrame {
     private void jbInit() throws Exception {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle("Eight Puzzle");
+        this.setTitle("Forklift IA Project");
 
         JPanel contentPane = (JPanel) this.getContentPane();
         contentPane.setLayout(new BorderLayout());

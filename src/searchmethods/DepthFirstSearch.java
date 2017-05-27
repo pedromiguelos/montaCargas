@@ -12,33 +12,32 @@ public class DepthFirstSearch extends GraphSearch<NodeLinkedList> {
         frontier = new NodeLinkedList();
     }
 
-    //Graph Search without explored list
+
     @Override
     protected Solution graphSearch(Problem problem) {
-        
-        statistics.reset();
+
         frontier.clear();
         frontier.add(new Node(problem.getInitialState()));
-        while(!frontier.isEmpty() && !stopped){
+
+        while (!frontier.isEmpty() && !stopped) {
             Node n = frontier.poll();
-            if(problem.isGoal(n.getState())){
+            if (problem.isGoal(n.getState())) {
                 return new Solution(problem, n);
             }
-            List<State> successors = problem.executeActions(n.getState());
-            addSuccessorsToFrontier(successors, n);
-            computeStatistics(successors.size());
-            
+            List<State> sucessors = problem.executeActions(n.getState());
+            addSuccessorsToFrontier(sucessors, n);
+            computeStatistics(sucessors.size());
         }
         return null;
     }
 
     public void addSuccessorsToFrontier(List<State> successors, Node parent) {
-        
+
         for (int i = successors.size()-1; i >= 0; i--) {
             State s = successors.get(i);
-            if(!frontier.containsState(s)){
-                Node n = new Node(s, parent);
-                if(!n.isCycle()) {
+            if (!frontier.containsState(s)) {
+                Node n = new Node(s,parent);
+                if (!n.isCycle()) {
                     frontier.addFirst(n);
                 }
             }

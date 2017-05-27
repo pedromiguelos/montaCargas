@@ -94,6 +94,23 @@ public class Obstacle {
     public void setPositions(ArrayList<Position> positions) {
         this.positions = positions;
     }*/
+
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    boolean isHorizontal() {
+        return direction == Direction.HORIZONTAL;
+    }
     
+     boolean isVertical() {
+        return direction == Direction.VERTICAL;
+    }
+
+
     
 }

@@ -1,12 +1,16 @@
 package agent;
 
+import forkliftPuzzle.Obstacle;
 
-//TODO: (NOTA) A Acçáo precisa de saber que peça vai mexer Actualmente só está a passar o estado
+
+
 public abstract class Action <S extends State>{
-    private double cost; // em alguns problemas o custo pode mudar exemplo caminhos que custem mais a percorrer a pe de carro etc neste programa é sempre 1
+    private double cost; 
+    protected Obstacle obstacle;
 
-    public Action(double cost){
+    public Action(double cost, Obstacle obstacle){
         this.cost = cost;
+        this.obstacle = obstacle;
     }
 
     //Chama os executes das classes Action[Down | Left | Right | Up]

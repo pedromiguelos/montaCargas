@@ -6,21 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ForklifttPuzzleState extends State implements Cloneable {
-
-    private int[][] goalMatrix = {
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0}
-    };
-
-    static final int[] linesfinalMatrix = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5};
-    static final int[] colsfinalMatrix = {0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5};
-
+    
     private int matrix[][];
     ArrayList<Obstacle> obstacles; // array com os obstáculos
+    private int carColumn;
 
     public ForklifttPuzzleState(int[][] matrix) {
 
@@ -31,6 +20,9 @@ public class ForklifttPuzzleState extends State implements Cloneable {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 this.matrix[i][j] = matrix[i][j]; //adiciona a matriz
+                if (matrix[i][j] == 1) {
+                    carColumn = j;
+                }
             }
         }
 
@@ -121,7 +113,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
         return true;
     }
 
-    public boolean canMoveDown() {
+    public boolean canMoveDown(Obstacle obstacle) {
         for (int i = 0; i < obstacles.size(); i++) {
         if(obstacles.get(i).getRow() >= matrix.length - 1) //não pode andar mais para baixo
            return false;
@@ -137,7 +129,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
         return true;
     }
 
-    public boolean canMoveUp() {
+    public boolean canMoveUp(Obstacle obstacle) {
         for (int i = 0; i < obstacles.size(); i++) {
             if(obstacles.get(i).getRow() <= 0) //se estiver no topo não pode andar mais para cima
             return false;
@@ -164,6 +156,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     public void moveUp(Obstacle obstacle) {
         matrix[obstacle.getRow()-1][obstacle.getColumn()] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()+obstacle.getSize()][obstacle.getColumn()] = 0; //a posição onde a peça se encontrava fica vazia
+             
         
         //falta atualizar a posição do obstaculo na lista de obstaculos
     }
@@ -265,4 +258,14 @@ public class ForklifttPuzzleState extends State implements Cloneable {
             listener.puzzleChanged(null);
         }
     }
+
+       public int getColumnCar() {
+        return carColumn;
+    }
+
+    public ArrayList<Obstacle> getObstacles() {
+        return obstacles;
+    }
+
+        
 }

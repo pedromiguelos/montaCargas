@@ -14,7 +14,6 @@ public abstract class Problem <S extends State>{
         this.actions = actions;
     }
     
-    //abstracto porq depende do problema, uma vez que existem problemas diferentes
     public abstract boolean isGoal(S state);
     
     public abstract List<S> executeActions(S state);
