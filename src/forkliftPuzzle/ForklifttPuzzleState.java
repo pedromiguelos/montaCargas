@@ -10,6 +10,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     private int matrix[][];
     ArrayList<Obstacle> obstacles; // array com os obstáculos
     private int carColumn;
+    int obstacleNumber;
 
     public ForklifttPuzzleState(int[][] matrix) {
 
@@ -82,68 +83,80 @@ public class ForklifttPuzzleState extends State implements Cloneable {
 
     //TODO: (NOTA) Sei que esta solução não é a melhor/mais otimizada, nem sei se funciona! Mas penso que deve funcionar e ao menos é nosso, ninguém que eu saiba fez assim.
     public boolean canMoveRight(Obstacle obstacle) {
-        for (int i = 0; i < obstacles.size(); i++) {
-        if(obstacles.get(i).getColumn() >= matrix.length -1) //não pode andar mais para a direita
+        for (int i = 0; i < obstacles.size(); i++) { //percorre a lista de obstaculos 
+            if (obstacles.get(i).equals(obstacle)) { //se encontrar o obstaculo pretendido guarda a sua posição no arrayList
+                 obstacleNumber = i;
+            }
+            }
+        if(obstacles.get(obstacleNumber).getColumn() >= matrix.length -1) //não pode andar mais para a direita
             return false;
         
         if(obstacle.getDirection() != Direction.HORIZONTAL)
             return false;
         
-        if(matrix[obstacles.get(i).getRow()][obstacles.get(i).getColumn() + 1] != 0) //se , por exemplo, tiver uma peça ao lado não pode mover
+        if(matrix[obstacles.get(obstacleNumber).getRow()][obstacles.get(obstacleNumber).getColumn() + 1] != 0) //se , por exemplo, tiver uma peça ao lado não pode mover
             return false;
         
         return true;
-        }
-        return true;
+        
     }
 
     public boolean canMoveLeft(Obstacle obstacle) {
         for (int i = 0; i < obstacles.size(); i++) {
-        if(obstacles.get(i).getColumn() <= 0) //não pode andar mais para a esquerda
+             if (obstacles.get(i).equals(obstacle)) { //se encontrar o obstaculo pretendido guarda a sua posição no arrayList
+                 obstacleNumber = i;
+            }
+            }
+        
+        if(obstacles.get(obstacleNumber).getColumn() <= 0) //não pode andar mais para a esquerda
             return false;
         
-        if(obstacles.get(i).getDirection() != Direction.HORIZONTAL)
+        if(obstacle.getDirection() != Direction.HORIZONTAL)
             return false;
     
-        if(matrix[obstacles.get(i).getRow()][obstacles.get(i).getColumn() - 1] != 0)
+        if(matrix[obstacles.get(obstacleNumber).getRow()][obstacles.get(obstacleNumber).getColumn() - 1] != 0)
             return false;
         
-        return true;
-        }
         return true;
     }
 
     public boolean canMoveDown(Obstacle obstacle) {
         for (int i = 0; i < obstacles.size(); i++) {
-        if(obstacles.get(i).getRow() >= matrix.length - 1) //não pode andar mais para baixo
+            if (obstacles.get(i).equals(obstacle)) { //se encontrar o obstaculo pretendido guarda a sua posição no arrayList
+                 obstacleNumber = i;
+            }
+        }
+        if(obstacles.get(obstacleNumber).getRow() >= matrix.length - 1) //não pode andar mais para baixo
            return false;
        
-       if(obstacles.get(i).getDirection() != Direction.VERTICAL)
+       if(obstacle.getDirection() != Direction.VERTICAL)
            return false;
        
-       if(matrix[obstacles.get(i).getRow() + 1][obstacles.get(i).getColumn()] != 0)
+       if(matrix[obstacles.get(obstacleNumber).getRow() + 1][obstacles.get(obstacleNumber).getColumn()] != 0)
            return false;
        
        return true;
-        }
-        return true;
+        
     }
 
     public boolean canMoveUp(Obstacle obstacle) {
         for (int i = 0; i < obstacles.size(); i++) {
-            if(obstacles.get(i).getRow() <= 0) //se estiver no topo não pode andar mais para cima
+            if (obstacles.get(i).equals(obstacle)) { //se encontrar o obstaculo pretendido guarda a sua posição no arrayList; não tenho a certeza se este equals funciona
+                 obstacleNumber = i;
+            }else{
+            throw new IllegalArgumentException("Obstacle not found!");
+            }
+        }
+            if(obstacles.get(obstacleNumber).getRow() <= 0) //se estiver no topo não pode andar mais para cima
             return false;
             
-            if(obstacles.get(i).getDirection() != Direction.VERTICAL) 
+            if(obstacle.getDirection() != Direction.VERTICAL) 
             return false;
         
-            if(matrix[obstacles.get(i).getRow() - 1][obstacles.get(i).getColumn()] != 0)
+            if(matrix[obstacles.get(obstacleNumber).getRow() - 1][obstacles.get(obstacleNumber).getColumn()] != 0)
             return false;
             
             return true;
-        }
-
-        return true;
     }
 
 
@@ -159,6 +172,9 @@ public class ForklifttPuzzleState extends State implements Cloneable {
              
         
         //falta atualizar a posição do obstaculo na lista de obstaculos
+        int obstaclePos = getPos(obstacle);
+        
+        obstacles.get(obstaclePos).setRow(obstacle.getRow()-1);
     }
 
     public void moveRight(Obstacle obstacle) {
@@ -166,20 +182,39 @@ public class ForklifttPuzzleState extends State implements Cloneable {
         matrix[obstacle.getRow()][obstacle.getColumn()-obstacle.getSize()] = 0;
         
         //falta atualizar a posição do obstaculo na lista de obstaculos
+        int obstaclePos = getPos(obstacle);
+        
+        obstacles.get(obstaclePos).setColumn(obstacle.getColumn()+1);
     }
 
     public void moveDown(Obstacle obstacle) {
         matrix[obstacle.getRow()+1][obstacle.getColumn()] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()-obstacle.getSize()][obstacle.getColumn()] = 0; //a posição onde a peça se encontrava fica vazia
         
-        //falta atualizar a posição do obstaculo na lista de obstaculos
+        
+        int obstaclePos = getPos(obstacle);
+        
+        obstacles.get(obstaclePos).setRow(obstacle.getRow()+1);
     }
 
     public void moveLeft(Obstacle obstacle) {
         matrix[obstacle.getRow()][obstacle.getColumn()-1] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()][obstacle.getColumn()+obstacle.getSize()] = 0;
         
-        //falta atualizar a posição do obstaculo na lista de obstaculos
+        
+        int obstaclePos = getPos(obstacle);
+        
+        obstacles.get(obstaclePos).setColumn(obstacle.getColumn()-1);
+        
+    }
+    
+    public int getPos(Obstacle obstacle) {
+        for (int i = 0; i < obstacles.size(); i++) {
+            if (obstacles.get(i).equals(obstacle)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public int getNumLines() {

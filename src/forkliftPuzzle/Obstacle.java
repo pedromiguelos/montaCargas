@@ -111,6 +111,15 @@ public class Obstacle {
         return direction == Direction.VERTICAL;
     }
 
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+     
 
     
 }
