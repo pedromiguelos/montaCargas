@@ -11,8 +11,8 @@ public class EightPuzzleAgent extends Agent<ForklifttPuzzleState>{
     public EightPuzzleAgent(ForklifttPuzzleState environemt) {
         super(environemt);
         initialEnvironment = (ForklifttPuzzleState) environemt.clone();
-        heuristics.add(new HeuristicTileDistance());
-        heuristics.add(new HeuristicTilesOutOfPlace());
+        heuristics.add(new HeuristicDistanceToGoal());
+        heuristics.add(new HeuristicObstaclesInTheWay());
         heuristic = heuristics.get(0);
     }
             
