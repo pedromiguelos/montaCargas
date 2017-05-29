@@ -4,11 +4,11 @@ import agent.Agent;
 import java.io.File;
 import java.io.IOException;
 
-public class EightPuzzleAgent extends Agent<ForklifttPuzzleState>{
+public class ForkliftPuzzleAgent extends Agent<ForklifttPuzzleState>{
     
     protected ForklifttPuzzleState initialEnvironment;    
     
-    public EightPuzzleAgent(ForklifttPuzzleState environemt) {
+    public ForkliftPuzzleAgent(ForklifttPuzzleState environemt) {
         super(environemt);
         initialEnvironment = (ForklifttPuzzleState) environemt.clone();
         heuristics.add(new HeuristicDistanceToGoal());

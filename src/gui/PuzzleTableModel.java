@@ -1,11 +1,11 @@
 package gui;
 
-import forkliftPuzzle.EightPuzzleEvent;
-import forkliftPuzzle.EightPuzzleListener;
+import forkliftPuzzle.ForkliftPuzzleEvent;
 import forkliftPuzzle.ForklifttPuzzleState;
 import javax.swing.table.AbstractTableModel;
+import forkliftPuzzle.ForkliftPuzzleListener;
 
-public class PuzzleTableModel extends AbstractTableModel implements EightPuzzleListener{
+public class PuzzleTableModel extends AbstractTableModel implements ForkliftPuzzleListener{
 
     private ForklifttPuzzleState puzzle;
 
@@ -29,7 +29,7 @@ public class PuzzleTableModel extends AbstractTableModel implements EightPuzzleL
         return new Integer(puzzle.getTileValue(row, col));
     }
 
-    public void puzzleChanged(EightPuzzleEvent pe){
+    public void puzzleChanged(ForkliftPuzzleEvent pe){
         fireTableDataChanged();
         try{
             Thread.sleep(500);

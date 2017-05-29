@@ -25,43 +25,7 @@ public class Obstacle {
         this.size = size;
         this.row = row;
         this.column = column;
-        //positions = new ArrayList<Position>();
-        //findCollection(position);
     }
-
-    /*private void findCollection(Position position) {
-       
-        positions.add(position);
-        if(size>1){
-            for(int i=0; i<size-1;i++){
-                if(direction == Direction.HORIZONTAL)
-                    positions.add(new Position(positions.get(positions.size()-1).getRow(), positions.get(positions.size()-1).getColumn()+1));
-                else
-                    positions.add(new Position(positions.get(positions.size()-1).getRow() + 1, positions.get(positions.size()-1).getColumn()));
-            }
-        }
-    }*/
-
-    //mover as peças
-    /* public void moveUp() {
-        for (Position p : positions)
-        p.moveUp();
-    }
-
-    public void moveRight() {
-        for (Position p : positions)
-            p.moveRight();
-    }
-
-    public void moveDown() {
-        for (Position p : positions)
-            p.moveDown();
-    }
-
-    public void moveLeft() {
-        for (Position p : positions)
-            p.moveLeft();
-    }*/
 
     public int getNumber() {
         return number;
@@ -87,13 +51,6 @@ public class Obstacle {
         this.direction = direction;
     }
 
-   /* public ArrayList<Position> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(ArrayList<Position> positions) {
-        this.positions = positions;
-    }*/
 
     public int getColumn() {
         return column;
@@ -118,8 +75,5 @@ public class Obstacle {
     public void setColumn(int column) {
         this.column = column;
     }
-
-     
-
     
 }

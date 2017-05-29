@@ -9,9 +9,9 @@ import java.util.List;
 //TODO: (NOTA) Este objeto é chamado pelos algoritmos de procura enquant estiverem á procura da solução
 //os algoritmos vão sempre verificando o isGoal() e se não encontrarem continuam para o executeActions()
 
-public class EightPuzzleProblem extends Problem<ForklifttPuzzleState> {
+public class ForkliftPuzzleProblem extends Problem<ForklifttPuzzleState> {
     
-    public EightPuzzleProblem(ForklifttPuzzleState initialState ){ //, List<Action> actions) {
+    public ForkliftPuzzleProblem(ForklifttPuzzleState initialState ){ //, List<Action> actions) {
         //Criar lista das pecas
         super(initialState, new ArrayList<Action>());
                        

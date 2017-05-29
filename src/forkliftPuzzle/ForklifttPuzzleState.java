@@ -10,7 +10,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     private int matrix[][];
     ArrayList<Obstacle> obstacles; // array com os obstáculos
     private int carColumn;
-    int obstacleNumber;
+    int obstaclePos;
     
     public ForklifttPuzzleState(int[][] matrix) {
         
@@ -84,15 +84,16 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     //TODO: (NOTA) Sei que esta solução não é a melhor/mais otimizada, nem sei se funciona! Mas penso que deve funcionar e ao menos é nosso, ninguém que eu saiba fez assim.
     public boolean canMoveRight(Obstacle obstacle) {
          //percorre a lista de obstaculos
-         obstacleNumber = getPos(obstacle);
+         //obstacleNumber = getPos(obstacle);
         
-        if(obstacles.get(obstacleNumber).getColumn() >= matrix.length -1) //não pode andar mais para a direita
+        if(obstacle.getColumn() >= matrix.length -1) //não pode andar mais para a direita
             return false;
+        
         
         if(obstacle.getDirection() != Direction.HORIZONTAL)
             return false;
         
-        if(matrix[obstacles.get(obstacleNumber).getRow()][obstacles.get(obstacleNumber).getColumn() + 1] != 0) //se , por exemplo, tiver uma peça ao lado não pode mover
+        if(matrix[obstacle.getRow()][obstacle.getColumn() + 1] != 0) //se tiver uma peça ao lado não pode mover
             return false;
         
         return true;
@@ -101,30 +102,27 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     
     public boolean canMoveLeft(Obstacle obstacle) {
         
-        obstacleNumber = getPos(obstacle);
-        
-        if(obstacles.get(obstacleNumber).getColumn() <= 0) //não pode andar mais para a esquerda
+        if(obstacle.getColumn() <= 0) //não pode andar mais para a esquerda
             return false;
         
-        if(obstacle.getDirection() != Direction.HORIZONTAL)
-            return false;
+        /*if(obstacle.getDirection() != Direction.HORIZONTAL)
+            return false;*/
         
-        if(matrix[obstacles.get(obstacleNumber).getRow()][obstacles.get(obstacleNumber).getColumn() - 1] != 0)
+        if(matrix[obstacle.getRow()][obstacle.getColumn() - 1] != 0)
             return false;
         
         return true;
     }
     
     public boolean canMoveDown(Obstacle obstacle) {
-        obstacleNumber = getPos(obstacle);
         
-        if(obstacles.get(obstacleNumber).getRow() >= matrix.length - 1) //não pode andar mais para baixo
+        if(obstacle.getRow() >= matrix.length - 1) //não pode andar mais para baixo
             return false;
         
         if(obstacle.getDirection() != Direction.VERTICAL)
             return false;
         
-        if(matrix[obstacles.get(obstacleNumber).getRow() + 1][obstacles.get(obstacleNumber).getColumn()] != 0)
+        if(matrix[obstacle.getRow() + 1][obstacle.getColumn()] != 0)
             return false;
         
         return true;
@@ -132,15 +130,15 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     }
     
     public boolean canMoveUp(Obstacle obstacle) {
-        obstacleNumber = getPos(obstacle);
-        
-        if(obstacles.get(obstacleNumber).getRow() <= 0) //se estiver no topo não pode andar mais para cima
+
+        if(obstacle.getRow() <= 0) //se estiver no topo não pode andar mais para cima
             return false;
         
-        if(obstacle.getDirection() != Direction.VERTICAL)
-            return false;
         
-        if(matrix[obstacles.get(obstacleNumber).getRow() - 1][obstacles.get(obstacleNumber).getColumn()] != 0)
+        /*if(obstacle.getDirection() != Direction.VERTICAL)
+            return false;*/
+        
+        if(matrix[obstacle.getRow() - 1][obstacle.getColumn()] != 0)
             return false;
         
         return true;
@@ -156,10 +154,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     public void moveUp(Obstacle obstacle) {
         matrix[obstacle.getRow()-1][obstacle.getColumn()] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()+obstacle.getSize()][obstacle.getColumn()] = 0; //a posição onde a peça se encontrava fica vazia
-        
-        
-        //falta atualizar a posição do obstaculo na lista de obstaculos
-        int obstaclePos = getPos(obstacle);
+        obstaclePos = getPos(obstacle);
         
         obstacles.get(obstaclePos).setRow(obstacle.getRow()-1);
     }
@@ -167,9 +162,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     public void moveRight(Obstacle obstacle) {
         matrix[obstacle.getRow()][obstacle.getColumn()+1] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()][obstacle.getColumn()-obstacle.getSize()] = 0;
-        
-        //falta atualizar a posição do obstaculo na lista de obstaculos
-        int obstaclePos = getPos(obstacle);
+        obstaclePos = getPos(obstacle);
         
         obstacles.get(obstaclePos).setColumn(obstacle.getColumn()+1);
     }
@@ -177,9 +170,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     public void moveDown(Obstacle obstacle) {
         matrix[obstacle.getRow()+1][obstacle.getColumn()] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()-obstacle.getSize()][obstacle.getColumn()] = 0; //a posição onde a peça se encontrava fica vazia
-        
-        
-        int obstaclePos = getPos(obstacle);
+        obstaclePos = getPos(obstacle);
         
         obstacles.get(obstaclePos).setRow(obstacle.getRow()+1);
     }
@@ -187,9 +178,7 @@ public class ForklifttPuzzleState extends State implements Cloneable {
     public void moveLeft(Obstacle obstacle) {
         matrix[obstacle.getRow()][obstacle.getColumn()-1] = matrix[obstacle.getRow()][obstacle.getColumn()];
         matrix[obstacle.getRow()][obstacle.getColumn()+obstacle.getSize()] = 0;
-        
-        
-        int obstaclePos = getPos(obstacle);
+        obstaclePos = getPos(obstacle);
         
         obstacles.get(obstaclePos).setColumn(obstacle.getColumn()-1);
         
@@ -261,22 +250,22 @@ public class ForklifttPuzzleState extends State implements Cloneable {
         return new ForklifttPuzzleState(matrix);
     }
     //Listeners
-    private transient ArrayList<EightPuzzleListener> listeners = new ArrayList<EightPuzzleListener>(3);
+    private transient ArrayList<ForkliftPuzzleListener> listeners = new ArrayList<ForkliftPuzzleListener>(3);
     
-    public synchronized void removeListener(EightPuzzleListener l) {
+    public synchronized void removeListener(ForkliftPuzzleListener l) {
         if (listeners != null && listeners.contains(l)) {
             listeners.remove(l);
         }
     }
     
-    public synchronized void addListener(EightPuzzleListener l) {
+    public synchronized void addListener(ForkliftPuzzleListener l) {
         if (!listeners.contains(l)) {
             listeners.add(l);
         }
     }
     
-    public void firePuzzleChanged(EightPuzzleEvent pe) {
-        for (EightPuzzleListener listener : listeners) {
+    public void firePuzzleChanged(ForkliftPuzzleEvent pe) {
+        for (ForkliftPuzzleListener listener : listeners) {
             listener.puzzleChanged(null);
         }
     }
